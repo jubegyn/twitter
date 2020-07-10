@@ -34,37 +34,35 @@ public class UserServiceImpl implements Logger, UserService {
 
 	@Override
 	public User inserir(@NonNull User user) {
-		log("obter: " + user);
+		log("inserir: " + user);
 		validate(user);
 
         Optional.ofNullable(userRepository.findByLogin(user.getLogin()))
         	.ifPresent((retorno) -> {
-        		throw new BusinessException("FOUND", "Usuário já existente", HttpStatus.BAD_REQUEST.value());
+        		throw new BusinessException("FOUND", "Login já está em uso!", HttpStatus.BAD_REQUEST.value());
         	});
 		return userRepository.save(user);
 	}
 
 	@Override
-	public User alterar(@NonNull User live) {
-		validate(live);
-		Validate.notNull(live.getId(), "Dados da Live incompleto");
-		return userRepository.save(live);
+	public User alterar(@NonNull User user) {
+		log("alterar: " + user);
+		validate(user);
+		Validate.notNull(user.getId(), "Dados da Live incompleto");
+		return userRepository.save(user);
 	}
 
 	@Override
 	public void deletar(@NonNull Long id) {
+		log("deletar: " + id);
 		userRepository.deleteById(id);
 	}
 
 	@Override
 	public Iterable<User> listar() {
+		log("litar todos " );
 		return userRepository.findAll();
 	}
-
-//    @Override
-//    public List<User> pesquisar(String nome) {
-	// return userRepository.findByNomeContains(nome);
-	// }
 
 	private static void validate(User obj) {
 		Validate.notNull(obj, "Dados do user não informado");
