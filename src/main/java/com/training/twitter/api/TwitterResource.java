@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.training.twitter.application.TwitterService;
+import com.training.twitter.domain.like.Like;
 import com.training.twitter.domain.twitter.Twitter;
 
 @RestController
@@ -45,5 +46,10 @@ public class TwitterResource {
 	public void deletar(@PathVariable Long id, @RequestHeader Long idUsuario) {
 		service.deletar(id, idUsuario);
 	}
-	
+
+	@GetMapping("/likes/twitter/{id}")
+	public Iterable<Like> findByTwitterId(@PathVariable Long id) {
+		return service.findByTwitterId(id);
+	}
+
 }

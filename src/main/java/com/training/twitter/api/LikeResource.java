@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,8 +24,8 @@ public class LikeResource {
 	}
 
 	@PatchMapping
-	public Like like(@RequestBody Like like) {
-		return service.like(like);
+	public Boolean like(@RequestBody Like like, @RequestHeader Long idUsuario) {
+		return service.like(like, idUsuario);
 	}
 	
 }

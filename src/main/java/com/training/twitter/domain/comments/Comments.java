@@ -2,10 +2,8 @@ package com.training.twitter.domain.comments;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -30,7 +28,7 @@ public class Comments {
 	@UpdateTimestamp
     private LocalDateTime time;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+	@OneToOne
 	private User user;
 
 	@OneToOne

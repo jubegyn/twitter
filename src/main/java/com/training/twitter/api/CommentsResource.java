@@ -26,15 +26,15 @@ public class CommentsResource {
 		return service.listar();
 	}
 
-	@GetMapping("/{id}")
-	public Comments obter(@PathVariable Long id) {
-		return service.obter(id);
-	}
+	@GetMapping("/twitters/{id}")
+    public Iterable<Comments> listByTwitter(@PathVariable Long id) {
+        return service.findByTwitter(id);
+    }
 
 	@PostMapping
 	public Comments inserir(@RequestBody Comments comments) {
 		return service.inserir(comments);
-	}
+	}	
 
 	@PutMapping
 	public Comments alterar(@RequestBody Comments comments) {
@@ -45,5 +45,4 @@ public class CommentsResource {
 	public void deletar(@PathVariable Long id, @RequestHeader("user_id") Long userId) {
 		service.deletar(id, userId);
 	}
-	
 }

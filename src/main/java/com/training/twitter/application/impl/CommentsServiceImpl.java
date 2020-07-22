@@ -44,7 +44,7 @@ public class CommentsServiceImpl implements Logger, CommentsService{
 	public Comments alterar(@NonNull Comments comments) {
 		log("Alterar: " + comments);
 		validate(comments);
-		Validate.notNull(comments.getId(), "Dados do like incompleto");		
+		Validate.notNull(comments.getId(), "Dados do like incompleto");
 		return commentsRepostory.save(comments);
 	}
 
@@ -67,10 +67,15 @@ public class CommentsServiceImpl implements Logger, CommentsService{
 		return commentsRepostory.findAll();
 	}
 	
+	@Override
+	public Iterable<Comments> findByTwitter(@NonNull Long idTwitter) {
+		log("listar todos Comments de um Twitter" );
+		return commentsRepostory.findByTwitterId(idTwitter);
+	}
+	
 	private static void validate(Comments obj) {
 		Validate.notNull(obj, "Dados do Comments não informado");
 		Validate.notNull(obj.getText(), "Text do Comments não informado");
-		Validate.notNull(obj.getTime(), "Time do Comments não informado");
 		Validate.notNull(obj.getUser(), "User do Comments não informado");
 		Validate.notNull(obj.getTwitter(), "Twitter não informado");
 	}

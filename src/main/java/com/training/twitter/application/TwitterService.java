@@ -2,6 +2,7 @@ package com.training.twitter.application;
 
 import org.springframework.lang.NonNull;
 
+import com.training.twitter.domain.like.Like;
 import com.training.twitter.domain.twitter.Twitter;
 
 public interface TwitterService {
@@ -10,4 +11,5 @@ public interface TwitterService {
 	Twitter alterar(@NonNull final Twitter twitter);
 	void deletar(@NonNull final Long idTwitter, @NonNull final Long idUser);
     Iterable<Twitter> listar();
+    public Iterable<Like> findByTwitterId(@NonNull Long id);
 }

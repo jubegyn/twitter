@@ -21,19 +21,20 @@ public class LikeServiceImpl implements Logger, LikeService {
 	}
 
 	@Override
-	public Like like(@NonNull Like like) {
-		final Like likeCadastrado = likeRepostory.findbyUserAndTwitter(like.getTwitter().getId(),
-				like.getUser().getId());
+	public Boolean like(@NonNull Like like, @NonNull Long idUsuario) {
+		final Like likeCadastrado = likeRepostory.findByUserIdAndTwitterId(like.getUser().getId(), like.getTwitter().getId());
 
 		if (likeCadastrado == null) {
 			log("Like: " + like);
 			validate(like);
-			return likeRepostory.save(like);
+			likeRepostory.save(like);
+			return true;
 		} else {
 			log("UnLike: " + like);
 			validate(like);
-			likeRepostory.delete(like);
-			return null;
+			Validate.isTrue(!like.getUser().getId().equals(idUsuario), "Somente o próprio usuário pode fazer o Des-like");
+			likeRepostory.delete(likeCadastrado);
+			return false;
 		}
 	}
 
@@ -45,7 +46,6 @@ public class LikeServiceImpl implements Logger, LikeService {
 
 	private static void validate(Like obj) {
 		Validate.notNull(obj, "Dados do Like não informado");
-		Validate.notNull(obj.getTime(), "Data do Like não informado");
 		Validate.notNull(obj.getUser(), "User do Like não informado");
 		Validate.notNull(obj.getTwitter(), "Twitter não informado");
 	}

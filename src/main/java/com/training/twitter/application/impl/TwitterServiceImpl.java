@@ -1,5 +1,7 @@
 package com.training.twitter.application.impl;
 
+import javax.transaction.Transactional;
+
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -7,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.training.twitter.application.TwitterService;
 import com.training.twitter.application.UserService;
+import com.training.twitter.domain.comments.CommentsRepository;
+import com.training.twitter.domain.like.Like;
+import com.training.twitter.domain.like.LikeRepository;
 import com.training.twitter.domain.twitter.Twitter;
 import com.training.twitter.domain.twitter.TwitterRepository;
 import com.training.twitter.domain.user.User;
@@ -18,12 +23,17 @@ import com.training.twitter.infra.exception.NotFoundException;
 public class TwitterServiceImpl implements Logger, TwitterService {
 
 	private final TwitterRepository twitterRepostory;
+	private final LikeRepository likeRepostory;
 	private final UserService userService;
+	private final CommentsRepository commentsRepostory;
 	
 	@Autowired
-	public TwitterServiceImpl(TwitterRepository twitterRepostory, UserService userService) {
+	public TwitterServiceImpl(TwitterRepository twitterRepostory, UserService userService, 
+			LikeRepository likeRepostory, CommentsRepository commentsRepostory) {
 		this.twitterRepostory = twitterRepostory;
 		this.userService = userService;
+		this.likeRepostory = likeRepostory;
+		this.commentsRepostory = commentsRepostory;
 	}
 	
 	@Override
@@ -49,6 +59,7 @@ public class TwitterServiceImpl implements Logger, TwitterService {
 	}
 
 	@Override
+	@Transactional
 	public void deletar(@NonNull Long idTwitter, @NonNull Long idUser) {
 		final Twitter twitter = twitterRepostory.findById(idTwitter)
 				.orElseThrow(() -> new BusinessException("Twitter não encontrado"));
@@ -57,6 +68,8 @@ public class TwitterServiceImpl implements Logger, TwitterService {
 		
 		if (owner.getId().equals(twitter.getUser().getId())) {
 			log("Deletar: " + idTwitter);
+			commentsRepostory.deleteByTwitterId(twitter.getId());
+			likeRepostory.deleteByTwitterId(twitter.getId());
 			twitterRepostory.delete(twitter);
 		}else {
 			throw new BusinessException("Somente o proprietário pode deletar a postagem");
@@ -67,6 +80,12 @@ public class TwitterServiceImpl implements Logger, TwitterService {
 	public Iterable<Twitter> listar() {
 		log("listar todos" );
 		return twitterRepostory.findAll();
+	}	
+
+	@Override
+	public Iterable<Like> findByTwitterId(@NonNull Long id) {
+		log("obterLikesByTwitter: " + id);
+		return likeRepostory.findByTwitterId(id);
 	}
 	
 	private static void validate(Twitter obj) {

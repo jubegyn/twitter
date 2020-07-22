@@ -10,4 +10,5 @@ public interface CommentsService {
 	Comments alterar(@NonNull final Comments comments);
     void deletar(@NonNull final Long idComments, @NonNull Long idUser);
     Iterable<Comments> listar();
+	Iterable<Comments> findByTwitter(Long idTwitter);
 }

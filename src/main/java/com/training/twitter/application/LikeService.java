@@ -5,6 +5,6 @@ import org.springframework.lang.NonNull;
 import com.training.twitter.domain.like.Like;
 
 public interface LikeService {
-	Like like(@NonNull final Like like);
+	Boolean like(@NonNull final Like like, @NonNull Long idUsuario);
     Iterable<Like> listar();
 }

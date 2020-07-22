@@ -2,14 +2,13 @@ package com.training.twitter.domain.twitter;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -32,7 +31,9 @@ public class Twitter {
 	@UpdateTimestamp
 	private LocalDateTime date;
 	private String country;
+	@Transient
 	private Long comments;
+	@Transient
 	private Long likes;
 
 	public Long getId() {
