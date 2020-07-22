@@ -12,6 +12,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.training.twitter.domain.comments.CommentsRepository;
 import com.training.twitter.domain.user.User;
 
 @Entity

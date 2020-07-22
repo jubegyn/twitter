@@ -39,8 +39,13 @@ public class TwitterServiceImpl implements Logger, TwitterService {
 	@Override
 	public Twitter obter(@NonNull Long id) {
 		log("obter: " + id);
-		return twitterRepostory.findById(id)
+		Twitter twitter = twitterRepostory.findById(id)
 				.orElseThrow(() -> new NotFoundException(String.format("Twitter não encontrado com ID %s", id)));
+		
+		twitter.setComments(commentsRepostory.countByTwitterId(id));
+		twitter.setLikes(likeRepostory.countByTwitterId(id));
+		
+		return twitter;
 	}
 
 	@Override
