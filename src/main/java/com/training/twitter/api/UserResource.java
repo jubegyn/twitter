@@ -13,7 +13,7 @@ import com.training.twitter.application.UserService;
 import com.training.twitter.domain.user.User;
 
 @RestController
-@RequestMapping(value = { "users", "schedules" })
+@RequestMapping(value = { "users" })
 public class UserResource {
 
 	@Autowired

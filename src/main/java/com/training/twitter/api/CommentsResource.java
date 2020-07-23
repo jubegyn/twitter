@@ -15,7 +15,7 @@ import com.training.twitter.application.CommentsService;
 import com.training.twitter.domain.comments.Comments;
 
 @RestController
-@RequestMapping(value = { "comments", "schedules" })
+@RequestMapping(value = { "comments" })
 public class CommentsResource {
 	
 	@Autowired

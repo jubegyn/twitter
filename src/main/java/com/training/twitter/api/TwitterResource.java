@@ -16,7 +16,7 @@ import com.training.twitter.domain.like.Like;
 import com.training.twitter.domain.twitter.Twitter;
 
 @RestController
-@RequestMapping(value = { "twitter", "schedules" })
+@RequestMapping(value = { "twitters" })
 public class TwitterResource {
 	
 	@Autowired
@@ -47,7 +47,7 @@ public class TwitterResource {
 		service.deletar(id, idUsuario);
 	}
 
-	@GetMapping("/likes/twitter/{id}")
+	@GetMapping("/{id}/likes")
 	public Iterable<Like> findByTwitterId(@PathVariable Long id) {
 		return service.findByTwitterId(id);
 	}
